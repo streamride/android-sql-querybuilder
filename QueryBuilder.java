@@ -1,4 +1,4 @@
-package ru.onlinepp.bestru.utill;
+package com.example.project;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
