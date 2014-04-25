@@ -1,4 +1,4 @@
-package com.example.project;
+package ru.onlinepp.bestru.utill;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -227,6 +227,21 @@ public class QueryBuilder {
 		selection.append(")");
 		return this;
 	}
+	
+	
+	/**
+	 * Required the specified column to be one of the specified strings <br/>
+	 * @param column
+	 * @param set
+	 * @return
+	 */
+	public QueryBuilder whereColumnInSet(String column, String[] set){
+		readySelection();
+		selection.append(column).append(" IN (");
+		joinInSelection(set);
+		selection.append(")");
+		return this;
+	}
 
 	/**
 	 * Requires the specified column to not be one of the specified values.<br />
@@ -275,6 +290,24 @@ public class QueryBuilder {
 		selection.append(")");
 		return this;
 	}
+	
+	/**
+	 * Requires the specified column to not be one of the specified Strings.<br />
+	 * Similar to the SQL expression <tt>[column] NOT IN ([set])</tt>
+	 * 
+	 * @param column
+	 * @param set
+	 * @return The QueryBuilder instance for chaining method calls
+	 */
+	public QueryBuilder whereColumnNotInSet(String column, String[] set){
+		readySelection();
+		selection.append(column).append(" NOT IN (");
+		joinInSelection(set);
+		selection.append(")");
+		return this;
+	}
+	
+	
 
 	// public QueryBuilder limit(int value) {
 	// // readySelection();
@@ -721,6 +754,15 @@ public class QueryBuilder {
 	private void joinInSelection(Object[] objects) {
 		for (int i = 0; i < objects.length; i++) {
 			selection.append(objects[i]);
+			if (i != objects.length - 1) {
+				selection.append(',');
+			}
+		}
+	}
+	
+	private void joinInSelection(String[] objects){
+		for (int i = 0; i < objects.length; i++) {
+			selection.append("'" + objects[i] + "'");
 			if (i != objects.length - 1) {
 				selection.append(',');
 			}
